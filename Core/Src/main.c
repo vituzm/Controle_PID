@@ -29,7 +29,7 @@
 /* USER CODE BEGIN PTD */
 #define msgSIZE 100
 #define N_AMOSTRAS 128 						 // Amostras DMA buffer
-#define LIM_SUPERIOR 1000
+#define LIM_SUPERIOR 1800
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -121,7 +121,7 @@ int main(void)
 
    PID_SetMode(&TPID, _PID_MODE_AUTOMATIC);
    PID_SetSampleTime(&TPID, 10);
-   PID_SetOutputLimits(&TPID, 1800, 0);
+   PID_SetOutputLimits(&TPID, 0, 1800);
 
 
    HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_2);
@@ -435,9 +435,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
+
 	if(htim->Channel==HAL_TIM_ACTIVE_CHANNEL_2)
 	{
-		pulso[0]= (int16_t)Val_CCR;
 		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pulso[EstadoDoPulso]);
 
 		if(EstadoDoPulso==DESCE) 													// Se está na borda de descida...
@@ -452,7 +452,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	double resultado = 0;
-	double valor_final = 0;
+	int16_t valor_final = 0;
 
 	for(int u = 0; u < N_AMOSTRAS; u++){
 		resultado += (medidas[u])*1.000;
@@ -461,6 +461,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	TempMedida = resultado/N_AMOSTRAS;
 
 	PID_Compute(&TPID);
+
+	valor_final = LIM_SUPERIOR - (int16_t)Val_CCR;
+	pulso[0] = valor_final;
 
 	HAL_ADC_Start_DMA(&hadc1, &medidas[0], N_AMOSTRAS);
 }
