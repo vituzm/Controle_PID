@@ -29,7 +29,7 @@
 /* USER CODE BEGIN PTD */
 #define msgSIZE 100
 #define N_AMOSTRAS 128 						 // Amostras DMA buffer
-#define LIM_SUPERIOR 1800
+#define LIM_SUPERIOR 1799
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -51,14 +51,24 @@ TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 
+// tensão x temp = tensao no arm
+//2,160 41,7
+//2,150 41,4
+//2,140 40,5
+//2,138 40,1 = 2653.06364
+//2,137 39,8
+// 2.891 37 = 3587.46818
+// 3.059: 45.1
+// 3.06: 44.5
+// 3.045: 42.8
 char msg[msgSIZE];
-double TempMedida = 0.00, Val_CCR = 0.00, TempDesejada = 4095;
+double TempMedida = 0.00, Val_CCR = 0.00, TempDesejada = 3587.46818;
 
 uint16_t medidas[N_AMOSTRAS];
 uint16_t angulo = 180;
 
 uint8_t EstadoDoPulso = 0;
-uint16_t pulso[2] = {10, LIM_SUPERIOR};
+uint16_t pulso[2] = {40, 1700};
 enum{SOBE=0,DESCE};
 
 int adc = 0;
@@ -120,8 +130,8 @@ int main(void)
    PID(&TPID, &TempMedida, &Val_CCR, &TempDesejada, 8, 0.001, 0, _PID_P_ON_E, _PID_CD_DIRECT);
 
    PID_SetMode(&TPID, _PID_MODE_AUTOMATIC);
-   PID_SetSampleTime(&TPID, 10);
-   PID_SetOutputLimits(&TPID, 0, 1800);
+   PID_SetSampleTime(&TPID, 100);
+   PID_SetOutputLimits(&TPID, 25, 1779);
 
 
    HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_2);
@@ -298,7 +308,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 10;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -452,7 +462,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 	double resultado = 0;
-	int16_t valor_final = 0;
+	uint16_t valor_final = 0;
 
 	for(int u = 0; u < N_AMOSTRAS; u++){
 		resultado += (medidas[u])*1.000;
@@ -462,8 +472,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 	PID_Compute(&TPID);
 
-	valor_final = LIM_SUPERIOR - (int16_t)Val_CCR;
+	valor_final = LIM_SUPERIOR - (uint16_t)Val_CCR ;
 	pulso[0] = valor_final;
+	pulso[1] = LIM_SUPERIOR;
 
 	HAL_ADC_Start_DMA(&hadc1, &medidas[0], N_AMOSTRAS);
 }
