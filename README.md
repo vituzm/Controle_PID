@@ -23,7 +23,8 @@
 Finished
 
 ## Video
-https://github.com/vituzm/Cubo_3D/assets/134985122/130da428-03e3-4678-8e63-bebb75d146d7
+![System in action](https://img.youtube.com/vi/VGLLtkI0vu0/maxresdefault.jpg)
+[Watch the system in action on YouTube](https://youtu.be/VGLLtkI0vu0)
 
 
 ## Contact
