@@ -1,4 +1,4 @@
-# 3D Cube of leds 
+# Temperature PID control using STM32F446
 > This project consists on creatig [proportional–integral–derivative controller](https://en.wikipedia.org/wiki/Proportional–integral–derivative_controller) (PID controller or three-term controller) control using [STM32_F446](https://www.st.com/en/microcontrollers-microprocessors/stm32f446.html).
 
 ## Table of Contents
