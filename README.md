@@ -1,5 +1,5 @@
 # 3D Cube of leds 
-> This project consists on creatig a animation on a 8x8x8 array using an [STM32_F446](https://www.st.com/en/microcontrollers-microprocessors/stm32f446.html) and C++ OOP.
+> This project consists on creatig [proportional–integral–derivative controller](https://en.wikipedia.org/wiki/Proportional–integral–derivative_controller) (PID controller or three-term controller) control using [STM32_F446](https://www.st.com/en/microcontrollers-microprocessors/stm32f446.html).
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -10,14 +10,14 @@
 <!-- [Acknowledgements](#acknowledgements) -->
 
 ## General Information
-- This project is based on a work for school
-- The names of the variables and comments were written in portuguese
-- The cube of leds was made by a professor
+- This project is based on a work for school.
+- The names of the variables and comments were written in portuguese.
+- The thermal chamber has two NTC Temperature Sensors and a 33/10W ohms resistor inside.
 
 ## Technologies Used
-- C and C++
+- C 
 - STM NUCLEO F446RE
-- Cube with leds
+- Zero detector 
 
 ## Project Status
 Finished
