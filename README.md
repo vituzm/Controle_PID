@@ -32,13 +32,12 @@ The PA1 pin of the microcontroller generates a PWM signal, which increases in wi
 After that, you can adjust the PID coefficients if desired.
 The power circuit was designed using a zero-crossing detector to synchronize with the power grid, and a TRIAC trigger circuit to activate the power grid sinusoid, allowing current to flow through the resistor and consequently heating the thermal chamber.
 
-## Project Status
-Finished
-
 ## Video
 ![System in action](https://img.youtube.com/vi/VGLLtkI0vu0/maxresdefault.jpg)
 [Watch the system in action on YouTube](https://youtu.be/VGLLtkI0vu0)
 
+## Project Status
+Finished
 
 ## Contact
 Created by [vituzm](https://github.com/vituzm) - feel free to contact!
