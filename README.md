@@ -22,10 +22,10 @@
 - TRIAC trigger circuit 
 
 ## Working principles
-The system is composed of two parts. The first is the software, which calculates the PID output to activate a TRIAC that cuts the sinusoidal voltage of the power grid. The program can be modified to set a different temperature, but we must know the voltage value for the desired temperature. Once that information is clear, you can change the value in:
+The system is composed of two parts. The first is the software, which calculates the PID output to activate a TRIAC that cuts the sinusoidal voltage of the power grid. The program can be modified to set a different temperature, but we must know the voltage value for the desired temperature. Once that information is clear, you can change the value in Core/Src/main.:
 
-`Core/Src/main.c 
-TempDesejada = VALUE OF VOLTAGE REQUIRED FOR THE TEMPERATURE.00`
+<code double TempDesejada = VALUE OF VOLTAGE REQUIRED FOR THE TEMPERATURE.00 </code>
+
 
 In the thermal chamber, there are two NTC temperature sensors and a 33/10W ohm resistor inside. One of the NTC sensors is used to display the temperature on the thermal chamber's display, while the other is used to acquire the current voltage (temperature) of the thermal chamber, which is connected to the PA0 pin.
 The PA1 pin of the microcontroller generates a PWM signal, which increases in width if the current voltage (temperature) is lower than the desired value, and decreases when it is higher. This value is changed acocrdingly to the PID calculated value. 
